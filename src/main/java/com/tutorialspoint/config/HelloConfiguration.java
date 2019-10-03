@@ -9,13 +9,15 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = "com.tutorialspoint")
-public class HelloConfiguration {
+public class HelloConfiguration implements WebMvcConfigurer {
     @Bean
     public InternalResourceViewResolver viewResolver() {
         InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
@@ -24,25 +26,26 @@ public class HelloConfiguration {
         viewResolver.setSuffix(".jsp");
         return viewResolver;
     }
-
-    @Bean(name = "person", initMethod = "init", destroyMethod = "destroy")
-    @Scope(value = "singleton")
-    public Person person() {
-        return new Person("Thuc Config", 22);
-    }
-
-    @Bean(name = "person2")
-    public Person person2() {
-        return new Person("Thuc Config2", 22);
-    }
-    //    @Bean
-//    public Order order() {
-//        return new Order(person());
+//
+//    @Bean(name = "person", initMethod = "init", destroyMethod = "destroy")
+//    @Scope(value = "singleton")
+//    public Person person() {
+//        return new Person("Thuc Config", 22);
 //    }
-    @Bean
-    @Autowired
-    @Qualifier("person2")
-    public Order order(Person person) {
-        return new Order(person);
+//
+//    @Bean(name = "person2")
+//    public Person person2() {
+//        return new Person("Thuc Config2", 22);
+//    }
+//    @Bean
+//    @Autowired
+//    @Qualifier("person2")
+//    public Order order(Person person) {
+//        return new Order(person);
+//    }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/resource/**").addResourceLocations("/resources");
     }
 }
