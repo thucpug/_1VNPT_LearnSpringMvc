@@ -5,10 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,11 +29,20 @@ public class HelloController {
         request.setAttribute("msg", person);
         return new ModelAndView("hello");
     }
-   @RequestMapping(value = {"/sayhello"},method = RequestMethod.GET)
+
+    @RequestMapping(value = {"/sayhello"}, method = RequestMethod.GET)
     public ModelAndView sayThuc(HttpServletRequest request, HttpServletResponse response, HttpSession session,
                                 @RequestParam(name = "user", required = true) String userName,
-                                @RequestHeader(name = "Accept",required = false) String accept) {
-        request.setAttribute("msg",accept);
+                                @RequestHeader(name = "Accept", required = false) String accept) {
+        request.setAttribute("msg", accept);
+        return new ModelAndView("hello");
+    }
+
+    @RequestMapping(value = {"/sayhello/{name}/{id}"}, method = RequestMethod.GET)
+    public ModelAndView sayThuc1(HttpServletRequest request,
+                                 @PathVariable(name = "name", required = true) String url,
+                                 @PathVariable(name = "id", required = true) String id) {
+        request.setAttribute("msg",url+ id);
         return new ModelAndView("hello");
     }
 }
