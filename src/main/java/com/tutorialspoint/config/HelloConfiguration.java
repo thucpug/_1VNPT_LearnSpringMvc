@@ -10,6 +10,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.web.multipart.MultipartResolver;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -58,5 +60,11 @@ public class HelloConfiguration implements WebMvcConfigurer {
         bundleMessageSource.setBasename("classpath:messages");
         bundleMessageSource.setDefaultEncoding("utf-8");
         return bundleMessageSource;
+    }
+    @Bean(name = "multipartResolver")
+    public MultipartResolver multipartResolver(){
+        CommonsMultipartResolver commonsMultipartResolver= new CommonsMultipartResolver();
+        commonsMultipartResolver.setMaxUploadSize(-1);
+        return  commonsMultipartResolver;
     }
 }
