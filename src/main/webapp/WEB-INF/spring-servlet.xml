@@ -5,11 +5,19 @@
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
-    <context:component-scan base-package="com.tutorialspoint.controller" />
-    <mvc:annotation-driven />
-    <bean class = "org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name = "prefix" value = "/WEB-INF/views/" />
-        <property name = "suffix" value = ".jsp" />
+    <context:component-scan base-package="com.tutorialspoint"/>
+    <mvc:annotation-driven/>
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/views/"/>
+        <property name="suffix" value=".jsp"/>
     </bean>
 
+    <bean id="person" class="com.tutorialspoint.model.Person" init-method="init" destroy-method="destroy"
+          scope="singleton">
+        <constructor-arg name="name" value="Thuc xml deeep zai"/>
+        <constructor-arg name="age" value="22"></constructor-arg>
+    </bean>
+    <bean id="order" class="com.tutorialspoint.model.Order" autowire="byName">
+       <constructor-arg name="person" ref="person"/>
+    </bean>
 </beans>
