@@ -14,7 +14,7 @@
     <title>Title</title>
 </head>
 <body>
-<h1>Hello ${msg.name}</h1>
-<img  src="<c:url value="/resource/image/2.jpg" />" >
+<h1>Hello ${msg}</h1>
+<img  src="<c:url value="/resource/image/3.jpg" />" width="100%">
 </body>
 </html>

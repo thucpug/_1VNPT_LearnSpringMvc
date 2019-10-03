@@ -26,7 +26,8 @@ public class HelloConfiguration implements WebMvcConfigurer {
         viewResolver.setSuffix(".jsp");
         return viewResolver;
     }
-//
+
+    //region Bean
 //    @Bean(name = "person", initMethod = "init", destroyMethod = "destroy")
 //    @Scope(value = "singleton")
 //    public Person person() {
@@ -43,7 +44,7 @@ public class HelloConfiguration implements WebMvcConfigurer {
 //    public Order order(Person person) {
 //        return new Order(person);
 //    }
-
+    //endregion
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/resource/**").addResourceLocations("/resources");
