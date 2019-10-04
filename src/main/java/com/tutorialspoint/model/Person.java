@@ -9,18 +9,21 @@ import java.util.List;
 
 public class Person {
 
-    private String id;
+    private int id;
     @NotEmpty
-    @Length(min = 10,max = 16)
+    @Length(min = 10, max = 16)
     private String name;
     @Min(1)
     private int age;
     private List<String> listFavorite;
     private String gender;
 
-    public Person(String name, int age) {
-        this.name = name;
-        this.age = age;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -39,14 +42,6 @@ public class Person {
         this.age = age;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public List<String> getListFavorite() {
         return listFavorite;
     }
@@ -62,6 +57,15 @@ public class Person {
     public void setGender(String gender) {
         this.gender = gender;
     }
+
+    public Person() {
+    }
+
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
 
     public void init() {
         System.out.println("Init Person");
