@@ -4,12 +4,11 @@ import com.tutorialspoint.model.Person;
 import com.tutorialspoint.service.IPersonService;
 import com.tutorialspoint.service.impl.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +18,12 @@ import java.util.List;
 public class PersonController {
     @Autowired
     IPersonService iPersonService;
+    //API
+    @RequestMapping(value = "/list-personapi", method = RequestMethod.GET)
+    public @ResponseBody List<Person> showListPersonapi() {
+        List<Person> personList = iPersonService.getAllPersonSevice();
+        return personList;
+    }
 
     @RequestMapping(value = "/list-person", method = RequestMethod.GET)
     public ModelAndView showListPerson(HttpServletRequest request) {

@@ -1,13 +1,13 @@
 package com.tutorialspoint.dao;
 
-import com.tutorialspoint.model.Person;
+import com.tutorialspoint.entity.PersonEntity;
 
 import java.util.List;
 
 public interface IPersonDao {
-    public boolean  addPerson(Person p);
-    public boolean  editPerson(Person p);
+    public boolean  addPerson(PersonEntity p);
+    public boolean  editPerson(PersonEntity p);
     public boolean  deletePerson(int id);
-    public Person  getPersonById(int id);
-    public List<Person> getAllPerson();
+    public PersonEntity  getPersonById(int id);
+    public List<PersonEntity> getAllPerson();
 }

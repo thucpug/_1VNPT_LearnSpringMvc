@@ -2,16 +2,20 @@ package com.tutorialspoint.config;
 
 import com.tutorialspoint.model.Order;
 import com.tutorialspoint.model.Person;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.*;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.orm.hibernate5.HibernateTransactionManager;
+import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.multipart.MultipartResolver;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -21,10 +25,13 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
 import javax.sql.DataSource;
+import java.util.Properties;
 
 @Configuration
 @EnableWebMvc
+@EnableTransactionManagement
 @ComponentScan(basePackages = "com.tutorialspoint")
+@PropertySource(value = {"classpath:db.properties"})
 public class HelloConfiguration implements WebMvcConfigurer {
     @Bean
     public InternalResourceViewResolver viewResolver() {
@@ -33,6 +40,14 @@ public class HelloConfiguration implements WebMvcConfigurer {
         viewResolver.setPrefix("/WEB-INF/views/");
         viewResolver.setSuffix(".jsp");
         return viewResolver;
+    }
+
+    @Autowired
+    Environment env;
+
+    @Bean
+    public static PropertySourcesPlaceholderConfigurer placeholderConfigurer() {
+        return new PropertySourcesPlaceholderConfigurer();
     }
 
     //region Bean
@@ -76,16 +91,38 @@ public class HelloConfiguration implements WebMvcConfigurer {
     @Bean
     public DataSource getDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/persondb");
-        dataSource.setUsername("root");
-        dataSource.setPassword("thuc0533");
-        System.out.println(dataSource);
+        dataSource.setDriverClassName(env.getProperty("driver"));
+        dataSource.setUrl(env.getProperty("url"));
+        dataSource.setUsername(env.getProperty("usernames"));
+        dataSource.setPassword(env.getProperty("password"));
         return dataSource;
     }
 
     @Bean
-    public JdbcTemplate jdbcTemplate() {
-        return new JdbcTemplate(getDataSource());
+    public LocalSessionFactoryBean localSessionFactoryBean() {
+        LocalSessionFactoryBean bean = new LocalSessionFactoryBean();
+        bean.setDataSource(getDataSource());
+        bean.setPackagesToScan("com.tutorialspoint.entity");
+        Properties hibernateProperties = new Properties();
+        hibernateProperties.put("hibernate.dialect",env.getProperty("hibernate.dialect"));
+        hibernateProperties.put("hibernate.show_sql",env.getProperty("hibernate.show_sql"));
+        bean.setHibernateProperties(hibernateProperties);
+        return bean;
     }
+    @Bean
+    public HibernateTransactionManager hibernateTransactionManager(SessionFactory sessionFactory){
+        HibernateTransactionManager transactionManager = new HibernateTransactionManager();
+        transactionManager.setSessionFactory(sessionFactory);
+        return  transactionManager;
+    }
+//    @Bean
+//    public JdbcTemplate jdbcTemplate() {
+//        return new JdbcTemplate(getDataSource());
+//    }
+//    @Bean(name = "transactionManager")
+//    public DataSourceTransactionManager dataSourceTransactionManager()
+//    {
+//        return  new DataSourceTransactionManager(getDataSource());
+//    }
+
 }
