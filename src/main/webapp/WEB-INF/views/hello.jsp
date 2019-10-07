@@ -11,7 +11,7 @@
 <link href="<c:url value="/resource/css/style.css" />" rel="stylesheet">
 <script type="text/javascript" src='<c:url value="/resource/js/main.js"/>'></script>
 <head>
-    <title>Title</title>
+    <title>Tixtle</title>
 </head>
 <body>
 <h1>Hello ${msg}</h1>
