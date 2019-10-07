@@ -74,18 +74,18 @@ public class HelloConfiguration implements WebMvcConfigurer {
     }
 
     @Bean
-    public DataSource dataSource() {
+    public DataSource getDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.jdbc.Driver");
         dataSource.setUrl("jdbc:mysql://localhost:3306/persondb");
         dataSource.setUsername("root");
         dataSource.setPassword("thuc0533");
-        System.out.println("## getDataSource: " + dataSource);
+        System.out.println(dataSource);
         return dataSource;
     }
 
     @Bean
     public JdbcTemplate jdbcTemplate() {
-        return new JdbcTemplate(dataSource());
+        return new JdbcTemplate(getDataSource());
     }
 }

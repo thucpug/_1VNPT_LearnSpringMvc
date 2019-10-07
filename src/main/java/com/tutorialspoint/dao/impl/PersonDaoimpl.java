@@ -19,14 +19,14 @@ public class PersonDaoimpl implements IPersonDao {
     @Override
     public boolean addPerson(Person p) {
         String sql = "INSERT INTO PERSON(NAME,GENDER) VALUE(?,?)";
-        jdbcTemplate.update(sql, p.getName(), p.getAge());
+        jdbcTemplate.update(sql, p.getName(), p.getGender());
         return true;
     }
 
     @Override
     public boolean editPerson(Person p) {
-        String sql = "UPDATE  PERSON SET NAME=? AND GENDER=? WHERE ID=?";
-        jdbcTemplate.update(sql, p.getName(), p.getAge(), p.getId());
+        String sql = "UPDATE PERSON SET NAME=? , GENDER=? WHERE ID=?";
+        jdbcTemplate.update(sql, p.getName(), p.getGender(), p.getId());
         return true;
     }
 

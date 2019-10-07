@@ -29,7 +29,6 @@ public class HelloInitializer implements WebApplicationInitializer {
         container.addFilter("encodingFilter",characterEncodingFilter)
                 .addMappingForUrlPatterns(null,false,"/*");
     }
-
 //    @Override
 //    protected Class<?>[] getRootConfigClasses() {
 //        return new Class[0];

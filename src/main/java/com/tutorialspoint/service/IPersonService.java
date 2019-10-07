@@ -8,7 +8,7 @@ public interface IPersonService {
     public void addPersonSevice(Person p);
     public void editPersonSevice(Person p);
     public void deletePersonSevice(int id);
-    public void getPersonByIdSevice(int id);
+    public Person getPersonByIdSevice(int id);
     public List<Person> getAllPersonSevice();
 
 }
